@@ -23,8 +23,18 @@ import { MatTableModule } from '@angular/material/table';
 })
 export class DatagridComponent implements OnInit {
   dataSource: SupplyElements[] = [];
-  columnsToDisplay = ['supplyName', 'supplyValue', 'lastUpdateDate', 'createdDate', 'nodeId', 'chainId', 'fromPlace', 'toPlace', 'updateBy', 'destiny', 'arrived'];
-  
+  columnsToDisplay = [
+    'supplyName',
+    'supplyValue',
+    'lastUpdateDate',
+    'createdDate',
+    'fromPlace',
+    'toPlace',
+    'updateBy',
+    'destiny',
+    'arrived'
+  ];
+
   columnsToDisplayWithExpand = [...this.columnsToDisplay, 'expand'];
   expandedElement: SupplyElements | null = null;
 
