@@ -9,14 +9,14 @@ import { ToolbarComponent } from './toolbar/toolbar.component'
 import { AppRoutingModule } from './app-routing.module';
 import { RouterModule } from '@angular/router';
 import { DatagridComponent } from './datagrid/datagrid.component';
-import { DatasearchComponent } from './datasearch/datasearch.component';
+import { datacreationComponent } from './datacreation/datacreation.component';
 import { HomeComponent } from './home/home.component';
 import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
   declarations: [
     AppComponent,
-    DatasearchComponent,
+    datacreationComponent,
     HomeComponent
   ],
   imports: [
