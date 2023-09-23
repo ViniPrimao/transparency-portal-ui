@@ -12,6 +12,12 @@ import { DatagridComponent } from './datagrid/datagrid.component';
 import { datacreationComponent } from './datacreation/datacreation.component';
 import { HomeComponent } from './home/home.component';
 import { MatTableModule } from '@angular/material/table';
+import { HttpClientModule } from '@angular/common/http';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSelectModule } from '@angular/material/select';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -25,10 +31,16 @@ import { MatTableModule } from '@angular/material/table';
     DatagridComponent,
     MatToolbarModule,
     MatTableModule,
+    MatPaginatorModule,
     MatIconModule,
     RouterModule,
     AppRoutingModule,
     ToolbarComponent,
+    HttpClientModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

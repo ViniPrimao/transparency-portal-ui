@@ -1,8 +1,11 @@
 <table mat-table [dataSource]="dataSource" multiTemplateDataRows class="mat-elevation-z8">
   <ng-container matColumnDef="{{ column }}" *ngFor="let column of columnsToDisplay">
-    <th mat-header-cell *matHeaderCellDef> {{ column }} </th>
+    <th mat-header-cell *matHeaderCellDef>
+      {{ formattedColumnNames[column] }}
+    </th>
     <td mat-cell *matCellDef="let element"> {{ element.supplyDTO[0][(column)] }} </td>
   </ng-container>
+
   <ng-container matColumnDef="expand">
     <th mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>
     <td mat-cell *matCellDef="let element">
@@ -17,12 +20,11 @@
   <ng-container matColumnDef="expandedDetail">
     <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplayWithExpand.length">
       <div class="element-detail" [@detailExpand]="element === expandedElement ? 'expanded' : 'collapsed'">
-        <!-- Use a flex container to display supply objects horizontally -->
         <div class="supply-group-horizontal">
           <div *ngFor="let supply of element.supplyDTO" class="supply-info-horizontal">
             <ng-container *ngFor="let column of columnsToDisplay">
               <div>
-                <strong>{{ column }}:</strong> {{ supply[column] }}
+                <strong>{{ formattedColumnNames[column] }}:</strong> {{ supply[column] }}
               </div>
             </ng-container>
           </div>
@@ -30,10 +32,6 @@
       </div>
     </td>
   </ng-container>
-  
-  
-
-
 
   <tr mat-header-row *matHeaderRowDef="columnsToDisplayWithExpand"></tr>
   <tr mat-row *matRowDef="let element; columns: columnsToDisplayWithExpand;" class="element-row"
@@ -42,3 +40,5 @@
   </tr>
   <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
 </table>
+<mat-paginator [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
+  (page)="handlePageChange($event)"></mat-paginator>

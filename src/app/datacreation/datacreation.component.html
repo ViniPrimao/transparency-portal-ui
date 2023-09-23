@@ -1,1 +1,49 @@
-<p>datacreation works!</p>
+<div class="container">
+    <form class="form">
+        <mat-form-field class="full-width">
+            <mat-label class="mat-form-field-label">Update data</mat-label>
+            <input matInput placeholder="Select existent data" [(ngModel)]="formData.supplyName" name="supplyName">
+        </mat-form-field>
+
+        <mat-form-field class="full-width">
+            <mat-label class="mat-form-field-label">Supply Name</mat-label>
+            <input matInput placeholder="Enter Supply Name" [(ngModel)]="formData.supplyName" name="supplyName">
+        </mat-form-field>
+
+        <mat-form-field class="full-width">
+            <mat-label class="mat-form-field-label">Supply Value</mat-label>
+            <input matInput type="number" placeholder="Enter Supply Value" [(ngModel)]="formData.supplyValue"
+                name="supplyValue">
+        </mat-form-field>
+
+        <mat-form-field class="full-width">
+            <mat-label class="mat-form-field-label">From Place</mat-label>
+            <input matInput placeholder="Enter From Place" [(ngModel)]="formData.fromPlace" name="fromPlace">
+        </mat-form-field>
+
+        <mat-form-field class="full-width">
+            <mat-label class="mat-form-field-label">To Place</mat-label>
+            <input matInput placeholder="Enter To Place" [(ngModel)]="formData.toPlace" name="toPlace">
+        </mat-form-field>
+
+        <mat-form-field class="full-width">
+            <mat-label class="mat-form-field-label">Destiny</mat-label>
+            <input matInput placeholder="Enter Destiny" [(ngModel)]="formData.destiny" name="destiny">
+        </mat-form-field>
+
+        <mat-form-field class="full-width">
+            <mat-label class="mat-form-field-label">Arrived</mat-label>
+            <mat-select [(ngModel)]="formData.arrived" name="arrived">
+                <mat-option value="true">Yes</mat-option>
+                <mat-option value="false">No</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <div class="button-container">
+            <div class="button-container-right">
+                <button type="submit" mat-raised-button color="primary" (click)="submitForm()">Submit</button>
+            </div>
+            <button type="button" mat-raised-button color="warn" (click)="clearForm()">Clear</button>
+        </div>
+    </form>
+</div>
