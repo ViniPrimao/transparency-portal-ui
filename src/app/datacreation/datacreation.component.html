@@ -2,7 +2,14 @@
     <form class="form">
         <mat-form-field class="full-width">
             <mat-label class="mat-form-field-label">Update data</mat-label>
-            <input matInput placeholder="Select existent data" [(ngModel)]="formData.supplyName" name="supplyName">
+            <mat-select (selectionChange)="onSupplySelect($event)">
+                <ng-container *ngFor="let data of dataSource">
+                    <ng-container *ngFor="let item of data.supplyDTO">
+                        <mat-option [value]="item">{{ item.supplyName }} | {{item.supplyValue}} |
+                            {{item.nodeId}} </mat-option>
+                    </ng-container>
+                </ng-container>
+            </mat-select>
         </mat-form-field>
 
         <mat-form-field class="full-width">
@@ -34,8 +41,8 @@
         <mat-form-field class="full-width">
             <mat-label class="mat-form-field-label">Arrived</mat-label>
             <mat-select [(ngModel)]="formData.arrived" name="arrived">
-                <mat-option value="true">Yes</mat-option>
-                <mat-option value="false">No</mat-option>
+                <mat-option [value]="true">Yes</mat-option>
+                <mat-option [value]="false">No</mat-option>
             </mat-select>
         </mat-form-field>
 

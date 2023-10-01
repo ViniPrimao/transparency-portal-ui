@@ -9,6 +9,8 @@ import { MatTableModule } from '@angular/material/table';
 import { HttpClient } from '@angular/common/http';
 import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { delay } from 'rxjs';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-datagrid',
@@ -22,11 +24,12 @@ import { MatTableDataSource } from '@angular/material/table';
     ]),
   ],
   standalone: true,
-  imports: [MatTableModule, NgFor, MatButtonModule, NgIf, MatIconModule, MatPaginatorModule]
+  imports: [MatTableModule, NgFor, MatButtonModule, NgIf, MatIconModule, MatPaginatorModule, MatProgressSpinnerModule]
 })
 export class DatagridComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   dataSource!: MatTableDataSource<SupplyElements>;
+  loading = false;
   columnsToDisplay = [
     'supplyName',
     'supplyValue',
@@ -38,7 +41,7 @@ export class DatagridComponent implements OnInit {
     'destiny',
     'arrived'
   ];
-  
+
   formattedColumnNames: Record<string, string> = {
     supplyName: 'Supply Name',
     supplyValue: 'Supply Value',
@@ -69,7 +72,12 @@ export class DatagridComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.http.get<any[]>('http://localhost:8080/').subscribe((data) => {
+    this.updateDataGrid();
+  }
+
+  public async updateDataGrid() {
+    this.loading = true;
+    this.http.get<any[]>('http://localhost:8080/').subscribe(async (data) => {
       this.dataSource.data = data;
       this.dataSource.paginator = this.paginator;
     });
