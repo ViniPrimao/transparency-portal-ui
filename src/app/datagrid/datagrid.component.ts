@@ -1,6 +1,6 @@
 
 
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -9,8 +9,9 @@ import { MatTableModule } from '@angular/material/table';
 import { HttpClient } from '@angular/common/http';
 import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { delay } from 'rxjs';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'app-datagrid',
@@ -24,12 +25,22 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     ]),
   ],
   standalone: true,
-  imports: [MatTableModule, NgFor, MatButtonModule, NgIf, MatIconModule, MatPaginatorModule, MatProgressSpinnerModule]
+  imports: [MatTableModule,
+    NgFor,
+    MatButtonModule,
+    NgIf,
+    MatIconModule,
+    MatPaginatorModule,
+    MatProgressSpinnerModule,
+    MatFormFieldModule,
+    MatInputModule
+  ]
 })
 export class DatagridComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   dataSource!: MatTableDataSource<SupplyElements>;
-  loading = false;
+  loading: boolean = false;
+
   columnsToDisplay = [
     'supplyName',
     'supplyValue',
@@ -54,7 +65,24 @@ export class DatagridComponent implements OnInit {
     arrived: 'Arrived',
   };
 
-  constructor(private http: HttpClient) {
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
+
+    this.dataSource.filterPredicate = (data, filter) => {
+      return data.supplyDTO.some(supply => {
+        return Object.values(supply).some(value => {
+          if (value !== null) {
+            return value.toString().toLowerCase().includes(filter);
+          }
+          return false;
+        });
+      });
+    };
+    this.dataSource.filter = filterValue;
+  }
+
+  constructor(private http: HttpClient,
+    private cdr: ChangeDetectorRef) {
     this.dataSource = new MatTableDataSource<any>([]);
   }
 
@@ -77,11 +105,31 @@ export class DatagridComponent implements OnInit {
 
   public async updateDataGrid() {
     this.loading = true;
-    this.http.get<any[]>('http://localhost:8080/').subscribe(async (data) => {
-      this.dataSource.data = data;
-      this.dataSource.paginator = this.paginator;
-    });
+
+    this.cdr.detectChanges();
+
+    await delay(500);
+
+    this.http.get<any[]>('http://localhost:8080/').subscribe(
+      async (data) => {
+        this.dataSource.data = data;
+        this.dataSource.paginator = this.paginator;
+        this.loading = false;
+
+        this.cdr.detectChanges();
+      },
+      (error) => {
+        console.error('Error fetching data:', error);
+        this.loading = false;
+
+        this.cdr.detectChanges();
+      }
+    );
   }
+}
+
+function delay(ms: number) {
+  return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 export interface SupplyDTO {

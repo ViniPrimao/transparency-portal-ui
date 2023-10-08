@@ -19,16 +19,19 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { AuthenticationSsoComponent } from './authentication-sso/authentication-sso.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     DataCreationComponent,
-    HomeComponent
+    HomeComponent,
+    AuthenticationSsoComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    MatFormFieldModule,
     DatagridComponent,
     MatToolbarModule,
     MatProgressSpinnerModule,

@@ -98,3 +98,15 @@ tr.element-row:not(.expanded-row):active {
   font-weight: bold;
   margin-right: 5px;
 }
+
+.spinner-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 1%;
+}
+
+.search-field {
+  width: 30%;
+  padding-left: 1%;
+}

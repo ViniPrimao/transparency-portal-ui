@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { DatagridComponent, SupplyElements } from '../datagrid/datagrid.component';
-import { delay } from 'rxjs';
 
 @Component({
   selector: 'app-datacreation',
@@ -16,7 +15,6 @@ export class DataCreationComponent implements OnInit {
     private dataGrid: DatagridComponent) {
     this.dataSource = [];
   }
-
 
   ngOnInit(): void {
     this.collectDataToList();
@@ -52,14 +50,12 @@ export class DataCreationComponent implements OnInit {
   }
 
   async submitForm() {
-    console.log('Form Data:', this.formData);
-
     this.http.post(`${this.baseUrl}`, this.formData)
       .subscribe(
-        () => {
+        async () => {
           this.clearForm();
           this.collectDataToList();
-          this.dataGrid.updateDataGrid();
+          await this.dataGrid.updateDataGrid();
         },
         (error) => {
           console.error('Error:', error);
@@ -76,4 +72,5 @@ export class DataCreationComponent implements OnInit {
       this.dataSource = data;
     });
   }
+
 }
